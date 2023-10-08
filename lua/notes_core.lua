@@ -1,45 +1,35 @@
-local lfs = require"lfs"
+local M = {}  -- Module table
 
-local M = {}
-local opts = {}
-
+-- Function to create a directory if it doesn't exist
 local function mkdir(path)
-  if not lfs.attributes(path, "mode") then
-    lfs.mkdir(path)
+  if vim.fn.isdirectory(path) == 0 then
+    vim.fn.mkdir(path, "p")
   end
 end
 
+-- Function to create a file if it doesn't exist
 local function touch(file)
-  if not lfs.attributes(file, "mode") then
+  if vim.fn.filereadable(file) == 0 then
     local f = io.open(file, "w")
-    if f then
-      f:write("# Index\n\nWelcome to your notes!")
-      f:close()
-    else
-      print'Could not open main_location'
-    end
+    f:write("# Index\n\nWelcome to your notes!")
+    f:close()
   end
 end
 
-function M.open_inded()
-  local index_file = opts.main.location .. "/index.md"
-  vim.api.nvim_command("edit " .. index_file)
-end
-
-function M.initialize_wiki(user_opts)
-  opts = user_opts
+-- Main initialization function
+function M.initialize_wiki(opts)
   local main_location = opts.main_location
   local diary_location = main_location .. "/Diary"
   local index_file = main_location .. "/index.md"
 
+  -- Create main_location directory if it doesn't exist
   mkdir(main_location)
 
+  -- Create Diary directory if it doesn't exist
   mkdir(diary_location)
 
+  -- Create index.md if it doesn't exist
   touch(index_file)
 end
 
-return {
-  initialize_wiki = M.initialize_wiki,
-  NotesIndexOpen = M.open_index
-}
+return M
