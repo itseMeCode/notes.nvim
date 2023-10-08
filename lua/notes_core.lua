@@ -1,6 +1,5 @@
-local M = {}  -- Module table
+local M = {}
 
--- Function to create a directory if it doesn't exist
 local function mkdir(path)
   if vim.fn.isdirectory(path) == 0 then
     vim.fn.mkdir(path, "p")
@@ -11,8 +10,12 @@ end
 local function touch(file)
   if vim.fn.filereadable(file) == 0 then
     local f = io.open(file, "w")
-    f:write("# Index\n\nWelcome to your notes!")
-    f:close()
+    if f then
+      f:write("# Index\n\nWelcome to your notes!")
+      f:close()
+    else
+      print'Could not create index.md file'
+    end
   end
 end
 
