@@ -1,4 +1,4 @@
-local notes_core = require'notes.nvim.notes_core'
+local notes_core = require'notes_core'
 
 local default_opts = {main_location = vim.fn.expand('$HOME/notes')}
 notes_core.initialize_wiki(default_opts)
