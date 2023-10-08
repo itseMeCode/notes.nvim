@@ -1,4 +1,4 @@
-local notes_core = require'notes.nvim.notes_core'
+local notes_core = require'notes_core'
 
 local function setup(opts)
   opts = opts or {}
